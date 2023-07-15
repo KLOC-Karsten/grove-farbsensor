@@ -1,0 +1,24 @@
+{
+    "name": "Grove Farbsensor",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "RGB-Color-Sensor": "github:calliope-edu/pxt-TCS34725FN#af260ea5717ba64e50e1dc77f411fb41093494e8"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "4.0.35",
+        "targetId": "calliopemini"
+    },
+    "supportedTargets": [
+        "calliopemini"
+    ],
+    "preferredEditor": "blocksprj"
+}
