@@ -1,32 +1,32 @@
+let Bereich = 0
 let Hue = 0
 let X = 0
 let Rot = 0
 let Gruen = 0
 let Blau = 0
-let V = 0
+let Max_Wert = 0
 let Min_Wert = 0
-let C = 0
+let Chroma = 0
 function berechne_rgb () {
-    Hue = Hue / 60
-    X = Hue * 256 % 512 - 256
-    X = 255 - Math.abs(X)
-    X = Math.floor(X)
+    Bereich = Hue / 60
+    X = 1 - Math.abs(Bereich % 2 - 1)
+    X = Math.floor(X * 255)
     Rot = 0
     Gruen = 0
     Blau = 0
-    if (Hue <= 1) {
+    if (Bereich <= 1) {
         Rot = 255
         Gruen = X
-    } else if (Hue <= 2) {
+    } else if (Bereich <= 2) {
         Rot = X
         Gruen = 255
-    } else if (Hue <= 3) {
+    } else if (Bereich <= 3) {
         Gruen = 255
         Blau = X
-    } else if (Hue <= 4) {
+    } else if (Bereich <= 4) {
         Gruen = X
         Blau = 255
-    } else if (Hue <= 5) {
+    } else if (Bereich <= 5) {
         Rot = X
         Blau = 255
     } else {
@@ -36,20 +36,20 @@ function berechne_rgb () {
 }
 // https://en.wikipedia.org/wiki/HSL_and_HSV
 function berechne_hue () {
-    V = Math.max(Rot, Math.max(Gruen, Blau))
+    Max_Wert = Math.max(Rot, Math.max(Gruen, Blau))
     Min_Wert = Math.min(Rot, Math.min(Gruen, Blau))
-    C = V - Min_Wert
-    if (C == 0) {
+    Chroma = Max_Wert - Min_Wert
+    if (Chroma == 0) {
         Hue = 0
-    } else if (V == Rot) {
-        Hue = (Gruen - Blau) * 60 / C
+    } else if (Max_Wert == Rot) {
+        Hue = (Gruen - Blau) * 60 / Chroma
         if (Hue < 0) {
             Hue = Hue + 360
         }
-    } else if (V == Gruen) {
-        Hue = (Blau - Rot) * 60 / C + 120
+    } else if (Max_Wert == Gruen) {
+        Hue = (Blau - Rot) * 60 / Chroma + 120
     } else {
-        Hue = (Rot - Gruen) * 60 / C + 240
+        Hue = (Rot - Gruen) * 60 / Chroma + 240
     }
 }
 // Liest die RGB Werte des Sensors ein.
@@ -59,7 +59,7 @@ function lese_sensor () {
     Blau = TCS34725.readBlue()
 }
 /**
- * https://stackoverflow.com/questions/3018313/algorithm-to-convert-rgb-to-hsv-and-hsv-to-rgb-in-range-0-255-for-both
+ * Reference: https://en.wikipedia.org/wiki/HSL_and_HSV
  */
 basic.forever(function () {
     lese_sensor()
